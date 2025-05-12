@@ -1,0 +1,453 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #d9d9d9;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+/* css of navbar */
+header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  background-color: white;
+  color: black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  flex: 1;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navmenu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  transition: transform 0.3s ease;
+}
+
+.navmenu li {
+  margin: 0 15px;
+  list-style: none;
+}
+
+.navmenu a {
+  text-decoration: none;
+  color: black;
+  font-size: 22px;
+  font-weight: 450;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navmenu a:hover {
+  color: #ff5733;
+  transform: translateY(-2px);
+}
+
+.nav-icon {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-icon a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-icon i {
+  color: black;
+  font-size: 24px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-icon i:hover {
+  color: #ff5733;
+  transform: scale(1.1);
+}
+
+.navmenu li {
+  position: relative; /* Add this */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  display: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  z-index: 100;
+}
+
+.navmenu li:hover .dropdown-menu {
+  display: block; /* Show the dropdown on hover */
+}
+
+#menu-icon {
+  font-size: 30px;
+  color: black;
+  cursor: pointer;
+  display: none;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  .navmenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-100%);
+  }
+
+  .navmenu.active {
+    transform: translateX(0);
+  }
+
+  .navmenu li {
+    margin: 20px 0;
+  }
+
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+  }
+
+  #menu-icon {
+    display: block;
+  }
+
+  .nav-container {
+    display: none;
+  }
+
+  .nav-icon {
+    display: none;
+  }
+}
+
+#hero {
+  height: 100vh;
+  /* margin-top: 95px; */
+  /* padding-top: 95px; */
+  background: url("https://im.uniqlo.com/global-cms/spa/rese23602ee184455e362416484bf4ed9c4fr.jpg")
+    no-repeat center center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: opacity 0.3s;
+}
+
+#hero.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#hero h1 {
+  font-size: 4rem;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+#hero p {
+  font-size: 1.5rem;
+  color: #fff;
+  margin: 20px 0;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+#hero a {
+  padding: 15px 30px;
+  background-color: #d4af37;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.2rem;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+#hero a:hover {
+  background-color: #b9922e;
+}
+
+section {
+  padding: 50px 20px;
+}
+
+h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.collection-grid,
+.best-seller-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.collection-item,
+.best-seller-item {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.collection-item img,
+.best-seller-item img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.collection-item:hover img,
+.best-seller-item:hover img {
+  transform: scale(1.1);
+}
+
+.hover-details {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 20px;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.collection-item:hover .hover-details {
+  transform: translateY(0);
+}
+
+.best-seller-item h3 {
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+
+.best-seller-item p {
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.best-seller-item img {
+  border-radius: 7px;
+}
+
+.lv-banner {
+  background: url("https://www.louisvuitton.com/images/homepage/banner-2022-fw.jpg")
+    no-repeat center center/cover;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.lv-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.lv-banner h2 {
+  color: #fff;
+  font-size: 3rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .nav-container {
+    display: none;
+  }
+
+  #menu-icon {
+    display: block;
+  }
+
+  .navmenu {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .navmenu.active {
+    display: flex;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  .hover-details {
+    font-size: 0.9rem;
+  }
+
+  .collection-item img,
+  .best-seller-item img {
+    height: 200px;
+  }
+
+  #hero h1 {
+    font-size: 3rem;
+  }
+
+  #hero p {
+    font-size: 1.2rem;
+  }
+
+  #hero a {
+    font-size: 1rem;
+    padding: 10px 20px;
+  }
+
+  .lv-banner {
+    height: 300px;
+  }
+
+  .lv-banner h2 {
+    font-size: 2rem;
+  }
+}
+
+/* css of footer */
+.infos {
+  background-color: var(--dark-background);
+  color: #fff;
+}
+.contact {
+  padding-top: 100px;
+}
+
+.contact-info {
+  display: flex;
+  gap: 3rem;
+  color: #fff;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.info {
+  flex: 1;
+}
+
+.first-info {
+  flex: 2;
+}
+
+.contact a {
+  text-decoration: none;
+}
+
+.contact-info h4 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.contact-info p {
+  color: var(--dark-background-foreground);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.copyright {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--dark-background-foreground);
+}
+
+.copyright a {
+  text-decoration: underline;
+  color: var(--dark-background-foreground);
+}
+.copyright a:hover {
+  text-decoration: underline;
+}
+footer {
+  width: 100%;
+  background-color: var(--dark-background);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.info h4 {
+  margin-bottom: 14px;
+}
+
+.info {
+  text-align: left;
+}
+.info ul {
+  list-style-type: none;
+}
+.footer-image {
+  margin-bottom: 14px;
+}
+/* end of css of footer */
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.211);
+  z-index: 10;
+}
+
+#hero {
+  position: relative;
+}
+
+.hero-wrapper {
+  position: relative;
+  z-index: 20;
+}

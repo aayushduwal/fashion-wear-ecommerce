@@ -1,0 +1,28 @@
+:root {
+  --primary: #000;
+  --secondary: #dc2626;
+  --tertiary: #c026d3;
+  --border: #475569;
+
+  --border-radius: 7px;
+
+  --foreground: #334155; /*text color*/
+  --primary-foreground: #ffedd5;
+
+  --primary-hover: #302e2e;
+  --dark-background: #0f172a;
+  --dark-background-foreground: #e2e8f0;
+}
+
+.single-product .col-2 {
+  aspect-ratio: 1/1;
+}
+
+.single-product .col-2 img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 768px) {
+}

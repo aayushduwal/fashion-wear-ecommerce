@@ -1,0 +1,68 @@
+/* reset-pwd.css */
+body {
+    background: linear-gradient(135deg, #ff385c 0%, #e61e4d 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    font-family: "Inter", sans-serif;
+    justify-content: center;
+}
+
+.container {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+h1 {
+    color: #484848;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    margin-bottom: 0.45rem;
+    display: block;
+    color: #484848;
+}
+
+input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #dddddd;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+button {
+    width: 100%;
+    padding: 1rem;
+    background: #ff385c;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #e61e4d;
+}
+
+.server-error {
+    background: #fff2f2;
+    color: #ff385c;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}

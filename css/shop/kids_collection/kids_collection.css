@@ -1,0 +1,540 @@
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f9f9f9;
+  overflow-x: hidden;
+}
+
+/* css of navbar */
+header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  background-color: white;
+  color: black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  flex: 1;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navmenu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  transition: transform 0.3s ease;
+}
+
+.navmenu li {
+  margin: 0 15px;
+  list-style: none;
+}
+
+.navmenu a {
+  text-decoration: none;
+  color: black;
+  font-size: 22px;
+  font-weight: 450;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navmenu a:hover {
+  color: #ff5733;
+  transform: translateY(-2px);
+}
+
+.nav-icon {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-icon a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-icon i {
+  color: black;
+  font-size: 24px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-icon i:hover {
+  color: #ff5733;
+  transform: scale(1.1);
+}
+
+.navmenu li {
+  position: relative; /* Add this */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  display: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  z-index: 100;
+}
+
+.navmenu li:hover .dropdown-menu {
+  display: block; /* Show the dropdown on hover */
+}
+
+#menu-icon {
+  font-size: 30px;
+  color: black;
+  cursor: pointer;
+  display: none;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  .navmenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-100%);
+  }
+
+  .navmenu.active {
+    transform: translateX(0);
+  }
+
+  .navmenu li {
+    margin: 20px 0;
+  }
+
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+  }
+
+  #menu-icon {
+    display: block;
+  }
+
+  .nav-container {
+    display: none;
+  }
+
+  .nav-icon {
+    display: none;
+  }
+}
+
+.hero {
+  background: url("https://www.modsandminis.ie/wp-content/uploads/2022/07/blog_banner.jpg")
+    no-repeat center center/cover;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center;
+  overflow: hidden;
+}
+
+.hero h1 {
+  font-size: 48px;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.hero p {
+  font-size: 20px;
+  font-style: italic;
+}
+
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.categories a {
+  text-decoration: none;
+  color: #333;
+  font-weight: bold;
+}
+
+.sale-price {
+  color: red;
+  font-weight: bold;
+}
+
+.sale {
+  color: orange;
+  font-weight: bold;
+}
+
+/* winter wear */
+.center-text h2 {
+  color: #111;
+  font-size: 28px;
+  text-transform: capitalize;
+  text-align: center;
+  margin: 30px;
+}
+
+.center-text span {
+  color: #ee1c47;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.row {
+  position: relative;
+  transition: all 0.4s;
+}
+
+.row img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  transition: all 0.4s;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+
+.row img:hover {
+  transform: scale(1.1); /* Enlarges image on hover */
+}
+
+.product-text h5 {
+  position: absolute;
+  top: 13px;
+  left: 13px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  background-color: #27b737;
+  padding: 3px 10px;
+  border-radius: 2px;
+}
+
+.heart-icon {
+  position: absolute;
+  right: 10px; /* Added padding */
+  top: 10px;
+  font-size: 20px;
+}
+
+.heart-icon:hover {
+  color: #ee1c47;
+}
+
+.rating i {
+  color: #ff8c00;
+  font-size: 18px;
+}
+
+.price h4 {
+  color: #111;
+  font-size: 16px;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+.price p {
+  color: #151515;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/*end of winter wear*/
+
+/* summer */
+.summer-text h2 {
+  color: #111;
+  font-size: 28px;
+  text-transform: capitalize;
+  text-align: center;
+  margin: 30px;
+}
+
+.summer-text span {
+  color: #ee1c47;
+}
+
+.summer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.row {
+  position: relative;
+  transition: all 0.4s;
+}
+
+.row img {
+  width: 100%;
+  height: auto;
+  transition: all 0.4s;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+
+.heart-icon {
+  position: absolute;
+  right: 0;
+  font-size: 20px;
+}
+
+.heart-icon:hover {
+  color: #ee1c47;
+}
+
+.rating i {
+  color: #ff8c00;
+  font-size: 18px;
+}
+
+.price h4 {
+  color: #111;
+  font-size: 16px;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+.price p {
+  color: #151515;
+  font-size: 14px;
+  font-weight: 600;
+}
+/* End of summer-wear */
+
+/*Jeans*/
+.jeans-text h2 {
+  color: #111;
+  font-size: 28px;
+  text-transform: capitalize;
+  text-align: center;
+  margin: 30px;
+}
+.jeans-text span {
+  background-color: #ee1c47;
+}
+.jeans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+.row {
+  position: relative;
+  transition: all 0.4s;
+}
+.row img {
+  width: 100%;
+  height: auto;
+  transition: all 0.4s;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+
+.heart-icon {
+  position: absolute;
+  right: 0;
+  font-size: 20px;
+}
+
+.heart-icon:hover {
+  color: #ee1c47;
+}
+
+.rating i {
+  color: #ff8c00;
+  font-size: 18px;
+}
+.price h4 {
+  color: #111;
+  font-size: 16px;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+.price p {
+  color: #151515;
+  font-size: 14px;
+  font-weight: 600;
+}
+/*close of jeans*/
+
+/*skirts*/
+.skirts-text h2 {
+  color: #111;
+  font-size: 28px;
+  text-transform: capitalize;
+  text-align: center;
+  margin: 30px;
+}
+
+.skirts-text span {
+  color: #ee1c47;
+}
+
+.skirts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+.row {
+  position: relative;
+  transition: all 0.4s;
+}
+
+.row img {
+  width: 100%;
+  height: auto;
+  transition: all 0.4s;
+  border-radius: 7px;
+  margin-bottom: 10px;
+}
+
+.heart-icon {
+  position: absolute;
+  right: 0;
+  font-size: 20px;
+}
+
+.heart-icon:hover {
+  color: #ee1c47;
+}
+
+.rating i {
+  color: #ff8c00;
+  font-size: 18px;
+}
+
+.price h4 {
+  color: #111;
+  font-size: 16px;
+  text-transform: capitalize;
+  font-weight: 400;
+}
+
+.price p {
+  color: #151515;
+  font-size: 14px;
+  font-weight: 600;
+}
+/*close of skirts*/
+
+/* css of footer */
+.infos {
+  background-color: var(--dark-background);
+  color: #fff;
+}
+.contact {
+  padding-top: 100px;
+}
+
+.contact-info {
+  display: flex;
+  gap: 3rem;
+  color: #fff;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.info {
+  flex: 1;
+}
+
+.first-info {
+  flex: 2;
+}
+
+.contact a {
+  text-decoration: none;
+}
+
+.contact-info h4 {
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.contact-info p {
+  color: var(--dark-background-foreground);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.copyright {
+  max-width: 1200px;
+  margin: 0 auto;
+  color: var(--dark-background-foreground);
+}
+
+.copyright a {
+  text-decoration: underline;
+  color: var(--dark-background-foreground);
+}
+.copyright a:hover {
+  text-decoration: underline;
+}
+footer {
+  width: 100%;
+  background-color: var(--dark-background);
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+}
+
+.info h4 {
+  margin-bottom: 14px;
+}
+
+.info {
+  text-align: left;
+}
+.info ul {
+  list-style-type: none;
+}
+.footer-image {
+  margin-bottom: 14px;
+}
+/* end of css of footer */

@@ -1,0 +1,453 @@
+.collection {
+  width: 100%;
+}
+
+.container {
+  max-width: 1415px;
+  width: 100%;
+  padding: 4rem 1rem;
+  margin: auto;
+}
+
+.collection .container h1 {
+  font-size: 2.25rem;
+  line-height: 1;
+  color: #0f172a;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+}
+
+.collection-wrapper-child {
+  width: 100%;
+}
+
+.collection-wrapper-child img {
+  mix-blend-mode: multiply;
+  border-radius: 0.375rem;
+  margin-bottom: 0.55rem;
+  width: 100%;
+  aspect-ratio: 16 / 11;
+  object-fit: cover;
+  background-color: #f1f5f9;
+}
+
+.collection:nth-child(odd) {
+  background: #f9fafb6b;
+}
+
+.collection-wrapper-child h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: #0f172a;
+}
+
+.hero {
+  height: 50vh;
+  padding: 0;
+  margin: 0;
+}
+
+.collection-hero h1 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 2rem 0;
+  text-transform: uppercase;
+}
+
+.collection-section h2 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 1rem 0;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #eee;
+}
+
+.container {
+  margin-top: 0;
+}
+
+.rating-wrapper {
+  margin-bottom: 1.75rem;
+}
+
+.fa-star {
+  font-size: 1.25rem;
+  color: #eab308;
+  fill: #eab308;
+}
+
+.collection-wrapper-child p {
+  font-size: 1.5rem;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.collection-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.rating-wrapper {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.main-home {
+  position: relative;
+}
+
+.main-home-overlay {
+  position: absolute;
+  inset: 0;
+  background-color: #00000069;
+  z-index: 5;
+}
+
+.main-text {
+  position: relative;
+  z-index: 10;
+}
+
+a {
+  text-decoration: none;
+  color: #0f172a;
+}
+
+/* Media Queries for Collection */
+@media (max-width: 768px) {
+  .collection-wrapper-child h2 {
+    font-size: 16px;
+  }
+
+  .collection-wrapper-child p {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .collection-wrapper-child h2 {
+    font-size: 14px;
+  }
+
+  .collection-wrapper-child p {
+    font-size: 10px;
+  }
+}
+
+.category-sections {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+/* Section Headers */
+.category-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 40px 0 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #eee;
+  text-transform: uppercase;
+}
+
+/* Product Grid Layout */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.container {
+  max-width: 1415px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.denim-section {
+  width: 48%;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.denim-image {
+  width: 100%;
+  height: auto;
+  background-color: #6c7d94;
+  margin-bottom: 15px;
+}
+
+.denim-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+
+.denim-description {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.shop-now-btn {
+  display: inline-block;
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding: 5px 0;
+  border-bottom: 1px solid #000;
+  text-transform: uppercase;
+}
+
+.shop-now-btn:hover {
+  opacity: 0.7;
+}
+
+.gift-guide-section {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch; /* Ensures children stretch to full height */
+  gap: 0;
+}
+
+/* Left section (text) */
+.gift-guide-section .denim-section:first-child {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+/* Right section (image) */
+.gift-guide-section .denim-section:last-child {
+  width: 50%; /* Explicitly set to 50% */
+  margin: 0;
+  padding: 0;
+}
+
+/* Image styling */
+.gift-guide-section .denim-image {
+  width: 100%;
+  height: 100%; /* Will work due to align-items: stretch on parent */
+  object-fit: cover; /* Prevents distortion */
+  display: block;
+}
+
+/* Button styling */
+.gift-guide-section .shop-now-btn {
+  display: inline-block;
+  width: auto;
+  margin: 0 auto; /* Centers the button */
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding: 5px 0;
+  border-bottom: 1px solid #000;
+  text-transform: uppercase;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .gift-guide-section .denim-section:first-child,
+  .gift-guide-section .denim-section:last-child {
+    width: 100%; /* Stacks sections vertically on mobile */
+  }
+}
+
+/* Special styling for 2-column gift guide row */
+.denim-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .denim-section,
+  .gift-guide-section .denim-section {
+    width: 100%;
+    text-align: center;
+  }
+
+  .denim-row {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.child-collection-section {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  margin-top: 40px; /* optional spacing from other sections */
+}
+
+.child-collection-section .denim-section {
+  width: 50%;
+  padding: 0;
+}
+
+.child-collection-section .denim-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.child-collection-section .shop-now-btn {
+  display: inline-block;
+  width: auto;
+  margin: 0 auto; /* Centers the button */
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  letter-spacing: 1px;
+  padding: 5px 0;
+  border-bottom: 1px solid #000;
+  text-transform: uppercase;
+}
+
+.child-collection-section .denim-section:last-child {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Responsive (mobile view) */
+@media (max-width: 768px) {
+  .child-collection-section {
+    flex-direction: column;
+  }
+
+  .child-collection-section .denim-section {
+    width: 100%;
+  }
+}
+
+/* Full-width banner with fixed aspect ratio */
+.dresses-banner {
+  width: 100%;
+  height: 70vh; /* Viewport height units for responsiveness */
+  min-height: 500px; /* Fallback */
+  position: relative;
+  margin: 40px 0;
+  overflow: hidden; /* Ensures no scrollbars */
+}
+
+/* Background image technique that shows full image AND fills container */
+.dresses-banner::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("../images/iimage.jpg");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #f5f5f5; /* Fallback color for empty space */
+  z-index: 1;
+}
+
+.banner-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
+  color: #000;
+  z-index: 2;
+}
+
+.banner-content h2 {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.banner-content .subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 5px;
+  font-weight: 300;
+}
+
+.banner-content .description {
+  font-size: 1.2rem;
+  font-weight: 300;
+  margin-bottom: 30px;
+}
+
+/* Shop Now Button */
+.dresses-banner .shop-now-btn {
+  display: inline-block;
+  background-color: #000;
+  color: #fff;
+  padding: 15px 40px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  border: 2px solid #000;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+}
+
+.shop-now-btn:hover {
+  background-color: transparent;
+  color: #000;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .dresses-banner {
+    padding-bottom: 75%; /* Taller aspect ratio on mobile */
+  }
+
+  .banner-content h2 {
+    font-size: 2rem;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+  }
+
+  .banner-content .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .banner-content .description {
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+
+  .shop-now-btn {
+    padding: 12px 30px;
+    font-size: 0.8rem;
+  }
+}
+/* End of Full width banner styles */

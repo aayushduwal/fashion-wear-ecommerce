@@ -1,0 +1,119 @@
+/* Media Queries */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+  }
+
+  .navmenu {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navmenu li {
+    margin: 20px 0;
+  }
+
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+  }
+
+  #menu-icon {
+    display: block;
+  }
+
+  .nav-container {
+    display: none;
+  }
+
+  .nav-icon {
+    display: none;
+  }
+}
+
+.order-history-container {
+  max-width: 1200px;
+  margin: 120px auto 50px;
+  padding: 20px;
+}
+.orders-list {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.data-table th,
+.data-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+.data-table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+.status {
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.status-pending {
+  background: #fff3cd;
+  color: #856404;
+}
+.status-processing {
+  background: #cce5ff;
+  color: #004085;
+}
+.status-completed {
+  background: #d4edda;
+  color: #155724;
+}
+.status-cancelled {
+  background: #f8d7da;
+  color: #721c24;
+}
+.btn-view {
+  padding: 5px 10px;
+  background: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.btn-view:hover {
+  background: #555;
+}
+.back-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.back-btn:hover {
+  background: #555;
+}
+.product-thumbnail {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+.order-info {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}

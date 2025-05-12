@@ -1,0 +1,297 @@
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans");
+
+body {
+  background-color: #f4f4f4;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+}
+
+/* css of navbar */
+header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  background-color: white;
+  color: black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  flex: 1;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navmenu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  transition: transform 0.3s ease;
+}
+
+.navmenu li {
+  margin: 0 15px;
+  list-style: none;
+}
+
+.navmenu a {
+  text-decoration: none;
+  color: black;
+  font-size: 22px;
+  font-weight: 450;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navmenu a:hover {
+  color: #ff5733;
+  transform: translateY(-2px);
+}
+
+.nav-icon {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-icon a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-icon i {
+  color: black;
+  font-size: 24px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-icon i:hover {
+  color: #ff5733;
+  transform: scale(1.1);
+}
+
+.navmenu li {
+  position: relative; /* Add this */
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  display: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  z-index: 100;
+}
+
+.navmenu li:hover .dropdown-menu {
+  display: block;
+}
+
+#menu-icon {
+  font-size: 30px;
+  color: black;
+  cursor: pointer;
+  display: none;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  .navmenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-100%);
+  }
+
+  .navmenu.active {
+    transform: translateX(0);
+  }
+
+  .navmenu li {
+    margin: 20px 0;
+  }
+
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+  }
+
+  #menu-icon {
+    display: block;
+  }
+
+  .nav-container {
+    display: none;
+  }
+
+  .nav-icon {
+    display: none;
+  }
+}
+/* end of navbar */
+
+.parent-container {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  width: 77%;
+}
+
+h1 {
+  text-align: center;
+  color: #000;
+}
+
+.input-box {
+  margin-bottom: 15px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: #eeeeee;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #000;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* .signup-link {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.signup-link a {
+  color: #ff5733;
+} */
+
+.login-link {
+  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.login-link p {
+  color: #666;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #000;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+  color: #000;
+}
+
+.password-requirements {
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+  padding-left: 0.5rem;
+}
+
+.password-requirements h5 {
+  color: #717171;
+  font-size: 0.8rem;
+  margin: 0 0 8px 0;
+  font-weight: normal;
+}
+
+.password-requirements ul {
+  list-style-type: none;
+  margin-top: 0.3rem;
+}
+
+.password-requirements li {
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+}
+
+.password-requirements li::before {
+  content: "•";
+  color: #717171;
+  margin-right: 0.5rem;
+}
+
+.role-select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: #eeeeee;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.role-select option {
+  padding: 10px;
+  background: white;
+}
+
+/* Error message styling */
+.error-message {
+  color: #dc3545;
+  font-size: 13px;
+  margin-top: 5px;
+  padding-left: 2px;
+}

@@ -1,0 +1,30 @@
+
+
+
+
+
+
+
+
+fashionwear/
+├── dashboard/
+ └── admin_dashboard.php
+ └── customeRs.php
+ └── login.php (for admin only)
+ └── logout.php (for admin only)
+ └── ordeRs.php
+ └── products.php
+ └── signup.php (for admin only)
+├── css/
+ └── login.css (for admin only)
+ └── logout.css (for admin only)
+ └── signup.css (for admin only)
+
+
+
+├── login.php  (for normal users)
+├── signup.php (for normal users)
+├── logout.php  (for normal users)
+
+
+

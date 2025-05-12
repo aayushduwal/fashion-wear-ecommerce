@@ -1,0 +1,234 @@
+@import url("https://fonts.googleapis.com/css?family=Josefin+Sans");
+
+body {
+  background-color: #f4f4f4;
+  margin: 0;
+  font-family: "Inter", sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  /* font-family: "Josefin Sans", sans-serif; */
+}
+
+/* css of navbar */
+header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  background-color: white;
+  color: black;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  flex: 1;
+}
+
+.logo img {
+  height: 40px;
+  width: auto;
+}
+
+.nav-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.navmenu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  transition: transform 0.3s ease;
+}
+
+.navmenu li {
+  margin: 0 15px;
+  list-style: none;
+}
+
+.navmenu a {
+  text-decoration: none;
+  color: black;
+  font-size: 22px;
+  font-weight: 450;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.navmenu a:hover {
+  color: #ff5733;
+  transform: translateY(-2px);
+}
+
+.nav-icon {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-icon a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.nav-icon i {
+  color: black;
+  font-size: 24px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.nav-icon i:hover {
+  color: #ff5733;
+  transform: scale(1.1);
+}
+
+.navmenu li {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: white;
+  display: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 10px 0;
+  z-index: 100;
+}
+
+.navmenu li:hover .dropdown-menu {
+  display: block;
+}
+
+#menu-icon {
+  font-size: 30px;
+  color: black;
+  cursor: pointer;
+  display: none;
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  .navmenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(-100%);
+  }
+
+  .navmenu.active {
+    transform: translateX(0);
+  }
+
+  .navmenu li {
+    margin: 20px 0;
+  }
+
+  .dropdown-menu {
+    position: static;
+    box-shadow: none;
+  }
+
+  #menu-icon {
+    display: block;
+  }
+
+  .nav-container {
+    display: none;
+  }
+
+  .nav-icon {
+    display: none;
+  }
+}
+/* -------------------- Navbar End -------------------- */
+
+.parent-container {
+  max-width: 700px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  max-width: 450px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 80px 60px;
+  border-radius: 20px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.container h1 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 42px;
+  font-weight: bold;
+  color: #000;
+}
+
+.input-box {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #eeeeee;
+  color: #333;
+  border-radius: 5px;
+}
+
+.forgot-password {
+  position: absolute;
+  right: 0;
+  bottom: -20px;
+  font-size: 14px;
+  color: #666;
+  text-decoration: none;
+}
+
+.btn {
+  margin-top: 25px;
+  width: 100%;
+  padding: 12px;
+  background: #000;
+  color: white;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.register-link {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.register-link a {
+  color: #000;
+  text-decoration: underline;
+}
