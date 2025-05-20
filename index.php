@@ -152,14 +152,14 @@ $kidsProducts = $stmt_kids->get_result();
       <img src="images/womensdenim.webp" alt="Women's Denim" class="denim-image">
       <h2 class="denim-title">Women's Denim</h2>
       <p class="denim-description">Designed to elevate your day-to-night wardrobe</p>
-      <a href="/womens-denim" class="shop-now-btn">SHOP NOW</a>
+      <a href="/fashionwear/womens_collections_products/index.php" class="shop-now-btn">SHOP NOW</a>
     </div>
 
     <div class="denim-section">
       <img src="images/mensdenim.webp" alt="Men's Denim" class="denim-image">
       <h2 class="denim-title">Men's Denim</h2>
       <p class="denim-description">Premium-made denim for every occasion</p>
-      <a href="/mens-denim" class="shop-now-btn">SHOP NOW</a>
+      <a href="/fashionwear/mens_collections_products/index.php" class="shop-now-btn">SHOP NOW</a>
     </div>
 
 
@@ -170,7 +170,7 @@ $kidsProducts = $stmt_kids->get_result();
       <div class="denim-section">
         <h2 class="denim-title">Mother's Day Gift Guide</h2>
         <p class="denim-description">Shop our handpicked selection of gifts just for her</p>
-        <a href="/gifts-for-her" class="shop-now-btn">SHOP GIFTS FOR HER</a>
+        <a href="/fashionwear/shop.php" class="shop-now-btn">SHOP GIFTS FOR HER</a>
       </div>
 
       <!-- Image (Right Side) -->
@@ -181,28 +181,27 @@ $kidsProducts = $stmt_kids->get_result();
     </div>
 
     <!-- Full-width banner section -->
-    <div class="dresses-banner">
+    <!-- <div class="dresses-banner">
       <div class="banner-content">
         <h2>ALL DRESSED UP</h2>
         <p class="subtitle">New-season dresses to see you through</p>
         <p class="description">every event on your calendar</p>
         <a href="#" class="shop-now-btn">SHOP NOW</a>
       </div>
-    </div>
+    </div> -->
 
     <div class="container child-collection-section">
 
       <!-- Left: Image -->
-      <div class="denim-section">
-        <img src="images/giftimage.jpg" alt="Child Collection" class="denim-image">
+      <!-- <div class="denim-section">
+        <img src="images/bachhaa.avif" alt="Child Collection" class="denim-image">
       </div>
 
-      <!-- Right: Text -->
       <div class="denim-section">
-        <h2 class="denim-title">The Perfect Pair</h2>
-        <p class="denim-description">The finishing touch your spring wardrobe's been waiting for</p>
+        <h2 class="denim-title">The Perfect Pair for the Children</h2>
+        <p class="denim-description">The clothes you have been waiting for</p>
         <a href="/childrens-collection" class="shop-now-btn">SHOP CLOTHES FOR CHILDRENS</a>
-      </div>
+      </div> -->
 
     </div>
 

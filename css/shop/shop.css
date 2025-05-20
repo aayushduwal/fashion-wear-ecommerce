@@ -185,7 +185,7 @@ header {
 
 #hero a {
   padding: 15px 30px;
-  background-color: #d4af37;
+  background-color: #000;
   color: #fff;
   text-decoration: none;
   font-size: 1.2rem;
@@ -194,7 +194,7 @@ header {
 }
 
 #hero a:hover {
-  background-color: #b9922e;
+  background-color: #2b2929;
 }
 
 section {
