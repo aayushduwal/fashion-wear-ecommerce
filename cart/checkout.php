@@ -261,17 +261,17 @@ $delivery_zones = [
               <h4>eSewa</h4>
               <p>Pay securely with your eSewa account</p>
             </div>
-            <input type="radio" name="payment_method" value="esewa" required>
+            <input type="radio" name="payment_method" value="esewa" style="margin-left: auto;" required>
           </div>
 
-          <!-- <div class="payment-method" onclick="selectPayment('khalti')">
-                        <img src="../images/khalti.png" alt="Khalti">
-                        <div class="payment-method-details">
-                            <h4>Khalti</h4>
-                            <p>Pay securely with your Khalti wallet</p>
-                        </div>
-                        <input type="radio" name="payment_method" value="khalti" required>
-                    </div> -->
+          <div class="payment-method" onclick="selectPayment('khalti')">
+            <img src="../images/khalti-logo.png" alt="Khalti">
+            <div class="payment-method-details">
+              <h4>Khalti</h4>
+              <p>Pay securely with your Khalti account</p>
+            </div>
+            <input type="radio" name="payment_method" value="khalti" style="margin-left: auto;" required>
+          </div>
         </div>
 
         <button type="submit" class="proceed-btn">Continue</button>
