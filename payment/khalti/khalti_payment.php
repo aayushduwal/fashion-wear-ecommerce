@@ -10,12 +10,13 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // Check if payment data is provided
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['amount'])) {
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['amount']) || !isset($_POST['order_id'])) {
     header("Location: ../../checkout.php?error=invalid_request");
     exit();
 }
 
 $amount = floatval($_POST['amount']);
+$order_id = intval($_POST['order_id']);
 $user_id = $_SESSION['user_id'];
 
 // Validate amount
@@ -110,6 +111,7 @@ if ($http_code === 200 && isset($response_data['pidx'])) {
         'purchase_order_id' => $purchase_order_id,
         'amount' => $amount_paisa,
         'user_id' => $user_id,
+        'order_id' => $order_id,
         'initiated_at' => date('Y-m-d H:i:s')
     ];
     

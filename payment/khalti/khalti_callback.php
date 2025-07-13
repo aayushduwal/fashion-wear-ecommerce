@@ -42,48 +42,42 @@ $verification_status = $verification_result['status'] ?? 'Unknown';
 $transaction_id = $verification_result['transaction_id'] ?? $pidx; // Use pidx as fallback
 
 if ($verification_status === 'Completed') {
-    // Payment successful - save to database
+    // Payment successful - update existing order in database
     try {
         // Use the existing MySQLi connection from config.php
         
-        // Prepare variables for database insertion
-        $payment_method = 'khalti';
-        $payment_status = 'completed';
-        $amount_in_rupees = $payment_session['amount'] / 100; // Convert back to rupees
+        // Get the order ID from session
+        $order_id = $payment_session['order_id'];
         
-        // Insert order record
+        if (!$order_id) {
+            throw new Exception("No order ID found in payment session");
+        }
+        
+        // Update the existing order with payment details
         $stmt = $conn->prepare("
-            INSERT INTO orders (
-                user_id, 
-                total_amount, 
-                payment_method, 
-                status, 
-                payment_ref, 
-                khalti_idx, 
-                order_date
-            ) VALUES (?, ?, ?, ?, ?, ?, NOW())
+            UPDATE orders 
+            SET status = 'completed', 
+                payment_ref = ?, 
+                khalti_idx = ?
+            WHERE id = ? AND user_id = ? AND status = 'pending'
         ");
         
         if ($stmt === false) {
-            throw new Exception("Prepare failed: " . $conn->error);
+            throw new Exception("Prepare failed for order update: " . $conn->error);
         }
         
-        $stmt->bind_param("idssss", 
-            $payment_session['user_id'],
-            $amount_in_rupees,
-            $payment_method,
-            $payment_status,
-            $pidx,
-            $transaction_id
-        );
-        
+        $stmt->bind_param("ssii", $pidx, $transaction_id, $order_id, $payment_session['user_id']);
         $stmt->execute();
         
         if ($stmt->error) {
             throw new Exception("Execute failed: " . $stmt->error);
         }
         
-        $order_id = $conn->insert_id;
+        // Check if the update actually affected any rows
+        if ($stmt->affected_rows === 0) {
+            throw new Exception("No order was updated - order may not exist or already completed");
+        }
+        
         $stmt->close();
         
         // Clear cart and payment session

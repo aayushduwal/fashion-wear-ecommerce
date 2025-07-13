@@ -147,7 +147,11 @@ if ($conn->connect_error) {
 }
 
 // Create order
+// Generate unique order ID
+$order_identifier = 'ORD_' . date('Ymd') . '_' . time() . '_' . $user_id;
+
 $stmt = $conn->prepare("INSERT INTO orders (
+    order_id,
     user_id, 
     customer_id, 
     total_amount, 
@@ -156,7 +160,7 @@ $stmt = $conn->prepare("INSERT INTO orders (
     payment_method, 
     delivery_zone,
     delivery_date
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 if (!$stmt) {
     error_log("Order query preparation failed: " . $conn->error . " SQL State: " . $conn->sqlstate);
@@ -166,7 +170,8 @@ if (!$stmt) {
 }
 
 $status = 'pending';
-$stmt->bind_param("iidsssss", 
+$stmt->bind_param("siidsssss", 
+    $order_identifier,
     $user_id, 
     $customer_id, 
     $total_amount, 
@@ -270,17 +275,20 @@ document.getElementById('esewaForm').submit();
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         
+        // Store order ID in session so callback can find it
+        $_SESSION['khalti_order_id'] = $order_id;
+        
         // Create a form to POST to the new Khalti payment handler
         ?>
-        <form action="khalti/khalti_payment.php" method="POST" id="khaltiForm">
-            <input type="hidden" name="amount" value="<?php echo $total_amount; ?>">
-            <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
-        </form>
-        <script>
-        console.log('Redirecting to Khalti KPG-2...');
-        document.getElementById('khaltiForm').submit();
-        </script>
-        <?php
+<form action="khalti/khalti_payment.php" method="POST" id="khaltiForm">
+  <input type="hidden" name="amount" value="<?php echo $total_amount; ?>">
+  <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
+</form>
+<script>
+console.log('Redirecting to Khalti KPG-2...');
+document.getElementById('khaltiForm').submit();
+</script>
+<?php
         break;
 
     default:
