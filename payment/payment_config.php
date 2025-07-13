@@ -8,16 +8,19 @@ define('ESEWA_LIVE_URL', 'https://epay.esewa.com.np/api/epay/main/v2/form');
 define('ESEWA_TEST_VERIFY_URL', 'https://uat.esewa.com.np/epay/transrec');
 define('ESEWA_LIVE_VERIFY_URL', 'https://epay.esewa.com.np/api/epay/transaction/v2/status');
 
-// Khalti Configuration
-define('KHALTI_PUBLIC_KEY', 'test_public_key_ce25e5d5f64a4b8f91c85831e89f1234'); 
-define('KHALTI_SECRET_KEY', 'test_secret_key_ce25e5d5f64a4b8f91c85831e89f1234'); 
-define('KHALTI_TEST_URL', 'https://a.khalti.com/api/v2/epayment/initiate/');
-define('KHALTI_LIVE_URL', 'https://khalti.com/api/v2/epayment/initiate/');
-define('KHALTI_TEST_VERIFY_URL', 'https://a.khalti.com/api/v2/epayment/verify/');
-define('KHALTI_LIVE_VERIFY_URL', 'https://khalti.com/api/v2/epayment/verify/');
+// Khalti KPG-2 Configuration
+define('KHALTI_TEST_SECRET_KEY', '7dd2c37f8b384e5998aa212d35045cb7'); // Your real test secret key
+define('KHALTI_TEST_PUBLIC_KEY', '78072db1d1c84fef9f807ac0443c5d7c'); // Your real test public key
+define('KHALTI_LIVE_SECRET_KEY', 'live_secret_key_your_khalti_secret_key');
+define('KHALTI_TEST_API_URL', 'https://dev.khalti.com/api/v2/');
+define('KHALTI_LIVE_API_URL', 'https://khalti.com/api/v2/');
 
 // Environment Setting
 define('PAYMENT_ENV', 'test'); // Change to 'live' for production
+
+// Website Configuration
+define('WEBSITE_URL', 'http://localhost/fashionwear/');
+define('RETURN_URL', 'http://localhost/fashionwear/payment/khalti/khalti_callback.php');
 
 // Get URLs based on environment
 function getEsewaUrl() {
@@ -28,11 +31,19 @@ function getEsewaVerifyUrl() {
     return PAYMENT_ENV === 'live' ? ESEWA_LIVE_VERIFY_URL : ESEWA_TEST_VERIFY_URL;
 }
 
-function getKhaltiUrl() {
-    return PAYMENT_ENV === 'live' ? KHALTI_LIVE_URL : KHALTI_TEST_URL;
+function getKhaltiSecretKey() {
+    return PAYMENT_ENV === 'live' ? KHALTI_LIVE_SECRET_KEY : KHALTI_TEST_SECRET_KEY;
 }
 
-function getKhaltiVerifyUrl() {
-    return PAYMENT_ENV === 'live' ? KHALTI_LIVE_VERIFY_URL : KHALTI_TEST_VERIFY_URL;
+function getKhaltiApiUrl() {
+    return PAYMENT_ENV === 'live' ? KHALTI_LIVE_API_URL : KHALTI_TEST_API_URL;
+}
+
+function getWebsiteUrl() {
+    return WEBSITE_URL;
+}
+
+function getReturnUrl() {
+    return RETURN_URL;
 }
 ?>

@@ -70,7 +70,7 @@ $stmt = $conn->prepare("INSERT INTO customers (name, email, phone, address, city
                        postal_code = VALUES(postal_code)");
 
 if (!$stmt) {
-    error_log("Customer query preparation failed: " . $conn->error);
+    error_log("Customer query preparation failed: " . $conn->error . " SQL State: " . $conn->sqlstate);
     $_SESSION['error'] = "System error. Please try again later.";
     header('Location: ../cart/checkout.php');
     exit();
@@ -79,13 +79,45 @@ if (!$stmt) {
 $stmt->bind_param("ssssss", $full_name, $email, $phone, $detailed_address, $city, $postal_code);
 
 if (!$stmt->execute()) {
-    error_log("Customer creation failed: " . $stmt->error);
+    error_log("Customer creation failed: " . $stmt->error . " SQL State: " . $stmt->sqlstate);
+    error_log("Customer Data - Name: $full_name, Email: $email, Phone: $phone, Address: $detailed_address, City: $city, Postal: $postal_code");
     $_SESSION['error'] = "Failed to save customer information. Please try again.";
     header('Location: ../cart/checkout.php');
     exit();
 }
 
-$customer_id = $stmt->insert_id ?: $conn->insert_id;
+// Get the customer ID - either from insert or existing record
+if ($stmt->insert_id) {
+    $customer_id = $stmt->insert_id;
+} else {
+    // If no insert_id, customer already exists, so get their ID
+    $stmt = $conn->prepare("SELECT id FROM customers WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $customer_id = $row['id'];
+    } else {
+        error_log("Failed to get customer ID for email: " . $email);
+        $_SESSION['error'] = "Failed to process customer information. Please try again.";
+        header('Location: ../cart/checkout.php');
+        exit();
+    }
+}
+
+error_log("Customer ID after insertion/retrieval: " . $customer_id);
+
+// Verify customer exists before proceeding
+$stmt = $conn->prepare("SELECT id FROM customers WHERE id = ?");
+$stmt->bind_param("i", $customer_id);
+$stmt->execute();
+$result = $stmt->get_result();
+if (!$result->fetch_assoc()) {
+    error_log("Customer ID verification failed for ID: " . $customer_id);
+    $_SESSION['error'] = "Customer verification failed. Please try again.";
+    header('Location: ../cart/checkout.php');
+    exit();
+}
 
 // Prepare shipping address
 $shipping_address = "Name: $full_name\n";
@@ -97,27 +129,69 @@ $shipping_address .= "Delivery Zone: $delivery_zone";
 
 $delivery_date = date('Y-m-d', strtotime('+7 days'));
 
+// Debug logging before order creation
+error_log("Attempting to create order with the following data:");
+error_log("User ID: " . $user_id);
+error_log("Customer ID: " . $customer_id);
+error_log("Total Amount: " . $total_amount);
+error_log("Payment Method: " . $payment_method);
+error_log("Delivery Zone: " . $delivery_zone);
+error_log("Delivery Date: " . $delivery_date);
+
+// Check database connection
+if ($conn->connect_error) {
+    error_log("Database connection failed: " . $conn->connect_error);
+    $_SESSION['error'] = "Database connection error. Please try again.";
+    header('Location: ../cart/checkout.php');
+    exit();
+}
+
 // Create order
-$stmt = $conn->prepare("INSERT INTO orders (user_id, customer_id, total_amount, status, shipping_address, payment_method, delivery_zone) 
-                       VALUES (?, ?, ?, 'pending', ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO orders (
+    user_id, 
+    customer_id, 
+    total_amount, 
+    status, 
+    shipping_address, 
+    payment_method, 
+    delivery_zone,
+    delivery_date
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
 
 if (!$stmt) {
-    error_log("Order query preparation failed: " . $conn->error);
+    error_log("Order query preparation failed: " . $conn->error . " SQL State: " . $conn->sqlstate);
     $_SESSION['error'] = "System error. Please try again later.";
     header('Location: ../cart/checkout.php');
     exit();
 }
 
-$stmt->bind_param("iidsss", $user_id, $customer_id, $total_amount, $shipping_address, $payment_method, $delivery_zone);
+$status = 'pending';
+$stmt->bind_param("iidsssss", 
+    $user_id, 
+    $customer_id, 
+    $total_amount, 
+    $status,
+    $shipping_address, 
+    $payment_method, 
+    $delivery_zone,
+    $delivery_date
+);
 
 if (!$stmt->execute()) {
-    error_log("Order creation failed: " . $stmt->error);
-    $_SESSION['error'] = "Failed to create order. Please try again.";
+    error_log("Order creation failed: " . $stmt->error . " SQL State: " . $stmt->sqlstate);
+    error_log("SQL Query: INSERT INTO orders (user_id, customer_id, total_amount, status, shipping_address, payment_method, delivery_zone, delivery_date) VALUES ($user_id, $customer_id, $total_amount, '$status', '$shipping_address', '$payment_method', '$delivery_zone', '$delivery_date')");
+    $_SESSION['error'] = "Failed to create order. Error: " . $stmt->error;
     header('Location: ../cart/checkout.php');
     exit();
 }
 
 $order_id = $stmt->insert_id;
+if (!$order_id) {
+    error_log("Failed to get order ID after insertion. Last Error: " . $conn->error);
+    $_SESSION['error'] = "Failed to create order. Please try again.";
+    header('Location: ../cart/checkout.php');
+    exit();
+}
 
 // Create order items
 $stmt = $conn->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
@@ -155,8 +229,8 @@ switch ($payment_method) {
     case 'esewa':
     // eSewa integration
     $esewa_url = getEsewaUrl();
-    $success_url = "http://" . $_SERVER['HTTP_HOST'] . "/fashionwear/payment/verify_payment.php?payment_method=esewa&oid=" . $order_id;
-    $failure_url = "http://" . $_SERVER['HTTP_HOST'] . "/fashionwear/payment/payment_failure.php?oid=" . $order_id;
+    $success_url = "http://" . $_SERVER['HTTP_HOST'] . "/fashionwear/payment/esewa/verify_payment.php?payment_method=esewa&oid=" . $order_id;
+    $failure_url = "http://" . $_SERVER['HTTP_HOST'] . "/fashionwear/payment/esewa/failure.php?oid=" . $order_id;
     
     // Format amount to 2 decimal places
     $amount = number_format($total_amount, 2, '.', '');
@@ -167,91 +241,46 @@ switch ($payment_method) {
     // Add error logging
     error_log("eSewa Payment Initiated - Order ID: " . $order_id . ", PID: " . $unique_pid . ", Amount: " . $amount);
     ?>
-    <form action="<?php echo $esewa_url; ?>" method="POST" id="esewaForm">
-        <input value="<?php echo $amount; ?>" name="tAmt" type="hidden">
-        <input value="<?php echo $amount; ?>" name="amt" type="hidden">
-        <input value="0" name="txAmt" type="hidden">
-        <input value="0" name="psc" type="hidden">
-        <input value="0" name="pdc" type="hidden">
-        <input value="<?php echo ESEWA_MERCHANT_ID; ?>" name="scd" type="hidden">
-        <input value="<?php echo $unique_pid; ?>" name="pid" type="hidden">
-        <input value="<?php echo $success_url; ?>" type="hidden" name="su">
-        <input value="<?php echo $failure_url; ?>" type="hidden" name="fu">
-    </form>
-    <script>
-        console.log('Submitting to eSewa...');
-        document.getElementById('esewaForm').submit();
-    </script>
-    <?php
+<form action="<?php echo $esewa_url; ?>" method="POST" id="esewaForm">
+  <input value="<?php echo $amount; ?>" name="tAmt" type="hidden">
+  <input value="<?php echo $amount; ?>" name="amt" type="hidden">
+  <input value="0" name="txAmt" type="hidden">
+  <input value="0" name="psc" type="hidden">
+  <input value="0" name="pdc" type="hidden">
+  <input value="<?php echo ESEWA_MERCHANT_ID; ?>" name="scd" type="hidden">
+  <input value="<?php echo $unique_pid; ?>" name="pid" type="hidden">
+  <input value="<?php echo $success_url; ?>" type="hidden" name="su">
+  <input value="<?php echo $failure_url; ?>" type="hidden" name="fu">
+</form>
+<script>
+console.log('Submitting to eSewa...');
+document.getElementById('esewaForm').submit();
+</script>
+<?php
     break;
 
     case 'khalti':
-        // Khalti integration
-        $khalti_url = getKhaltiUrl();
-        $success_url = "http://" . $_SERVER['HTTP_HOST'] . "/fashionwear/payment/verify_payment.php?payment_method=khalti&oid=" . $order_id;
-        $failure_url = "http://" . $_SERVER['HTTP_HOST'] . "/fashionwear/payment/payment_failure.php?oid=" . $order_id;
-
-        // Prepare the data for Khalti
-        $data = [
-            "return_url" => $success_url,
-            "website_url" => "http://" . $_SERVER['HTTP_HOST'] . "/fashionwear",
-            "amount" => intval($total_amount * 100), // Convert to paisa and ensure it's an integer
-            "purchase_order_id" => strval($order_id), // Ensure order_id is a string
-            "purchase_order_name" => "Order #" . $order_id,
-            "customer_info" => [
-                "name" => $full_name,
-                "email" => $email,
-                "phone" => $phone
-            ]
-        ];
-
-        // Debug log
-        error_log("Khalti Request Data: " . json_encode($data));
-        error_log("Khalti URL: " . $khalti_url);
-
-        // Initialize cURL
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $khalti_url);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); // For testing only
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            'Authorization: Key ' . KHALTI_SECRET_KEY,
-            'Content-Type: application/json'
-        ]);
-
-        // Debug log for request headers
-        error_log("Khalti Request Headers: Authorization: Key " . substr(KHALTI_SECRET_KEY, 0, 10) . "...");
-
-        $response = curl_exec($ch);
-        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        // Store necessary data in session for the new Khalti API
+        $_SESSION['user_name'] = $full_name;
+        $_SESSION['user_email'] = $email;
+        $_SESSION['user_phone'] = $phone;
         
-        // Debug log
-        error_log("Khalti Response Status: " . $status_code);
-        error_log("Khalti Response: " . $response);
+        // Clear cart before payment (we'll restore if payment fails)
+        $stmt = $conn->prepare("DELETE FROM cart WHERE user_id = ?");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
         
-        // If curl error occurs
-        if(curl_errno($ch)) {
-            error_log("Curl Error: " . curl_error($ch));
-        }
-        
-        curl_close($ch);
-
-        $response_data = json_decode($response, true);
-
-        if ($status_code === 200 && isset($response_data['payment_url'])) {
-            // Redirect to Khalti payment page
-            header('Location: ' . $response_data['payment_url']);
-            exit();
-        } else {
-            // Log the error and show detailed message for debugging
-            error_log("Khalti Error Response: " . json_encode($response_data));
-            $_SESSION['error'] = "Failed to initialize Khalti payment. Error: " . 
-                               (isset($response_data['detail']) ? $response_data['detail'] : 'Unknown error');
-            header('Location: ../cart/checkout.php');
-            exit();
-        }
+        // Create a form to POST to the new Khalti payment handler
+        ?>
+        <form action="khalti/khalti_payment.php" method="POST" id="khaltiForm">
+            <input type="hidden" name="amount" value="<?php echo $total_amount; ?>">
+            <input type="hidden" name="order_id" value="<?php echo $order_id; ?>">
+        </form>
+        <script>
+        console.log('Redirecting to Khalti KPG-2...');
+        document.getElementById('khaltiForm').submit();
+        </script>
+        <?php
         break;
 
     default:

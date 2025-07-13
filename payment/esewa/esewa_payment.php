@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once('../database/config.php');
+require_once('../../database/config.php');
+require_once('../payment_config.php');
 
 // Enable error reporting for debugging
 error_reporting(E_ALL);
@@ -33,6 +34,18 @@ function generateEsewaPayment($amount, $order_id) {
     return $data;
 }
 
+// Check if eSewa is reachable (for class project)
+function isEsewaReachable() {
+    $context = stream_context_create([
+        'http' => [
+            'timeout' => 5,
+            'method' => 'HEAD'
+        ]
+    ]);
+    
+    return @file_get_contents('https://uat.esewa.com.np/epay/main', false, $context) !== false;
+}
+
 // Handle payment initiation
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -47,6 +60,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $order_id = 'ORDER_' . time(); // Generate unique order ID
         
+        // Check if eSewa is reachable
+        if (!isEsewaReachable()) {
+            // For class project - simulate eSewa payment
+            $_SESSION['esewa_simulation'] = [
+                'order_id' => $order_id,
+                'amount' => $amount,
+                'message' => 'eSewa server unavailable - using simulation for class project'
+            ];
+            header("Location: esewa_simulation.php");
+            exit();
+        }
+        
         // Store order details in session
         $_SESSION['order_id'] = $order_id;
         $_SESSION['amount'] = $amount;
@@ -54,12 +79,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $payment_data = generateEsewaPayment($amount, $order_id);
         
         // Store order in database
-        $stmt = $conn->prepare("INSERT INTO orders (order_id, amount, payment_status, created_at) VALUES (?, ?, 'pending', NOW())");
+        $user_id = $_SESSION['user_id'];
+        $stmt = $conn->prepare("INSERT INTO orders (order_id, user_id, total_amount, payment_method, status) VALUES (?, ?, ?, 'esewa', 'pending')");
         if (!$stmt) {
             throw new Exception("Database error: " . $conn->error);
         }
         
-        $stmt->bind_param("sd", $order_id, $amount);
+        $stmt->bind_param("sid", $order_id, $user_id, $amount);
         if (!$stmt->execute()) {
             throw new Exception("Failed to save order: " . $stmt->error);
         }
@@ -81,4 +107,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: ../checkout.php?error=invalid_request");
     exit();
 }
-?> 
+?>

@@ -6,26 +6,41 @@ require_once('../database/config.php');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// eSewa Configuration
-$esewa_merchant_id = "EPAYTEST"; // Replace with your merchant ID
-$esewa_verification_url = "https://uat.esewa.com.np/epay/transrec"; // Testing URL
+// Check for simulation mode first
+if (isset($_GET['simulation'])) {
+    $order_id = $_GET['order_id'] ?? 'SIM_' . time();
+    $amount = $_GET['amount'] ?? 0;
+    $payment_method = $_GET['simulation'];
+    
+    // Clear simulation session data
+    unset($_SESSION['esewa_simulation']);
+    unset($_SESSION['khalti_order']);
+    
+    $success_message = "Payment simulation completed successfully!";
+    $is_simulation = true;
+} else {
+    // eSewa Configuration
+    $esewa_merchant_id = "EPAYTEST"; // Replace with your merchant ID
+    $esewa_verification_url = "https://uat.esewa.com.np/epay/transrec"; // Testing URL
 
-// Log the incoming request
-error_log("eSewa Success Response: " . print_r($_GET, true));
-
-if (isset($_GET['oid']) && isset($_GET['amt']) && isset($_GET['refId'])) {
-    try {
-        $order_id = $_GET['oid'];
-        $amount = $_GET['amt'];
-        $ref_id = $_GET['refId'];
+    // Check if this is an eSewa callback or direct access
+    if (isset($_GET['oid']) && isset($_GET['amt']) && isset($_GET['refId'])) {
+        // eSewa payment verification
+        // Log the incoming request
+        error_log("eSewa Success Response: " . print_r($_GET, true));
         
-        // Verify payment with eSewa
-        $url = $esewa_verification_url;
-        $data = [
-            'amt' => $amount,
-            'rid' => $ref_id,
-            'pid' => $order_id,
-            'scd' => $esewa_merchant_id
+        try {
+            $order_id = $_GET['oid'];
+            $amount = $_GET['amt'];
+            $ref_id = $_GET['refId'];
+            
+            // Verify payment with eSewa
+            $url = $esewa_verification_url;
+            $data = [
+                'amt' => $amount,
+                'rid' => $ref_id,
+                'pid' => $order_id,
+                'scd' => $esewa_merchant_id
         ];
         
         error_log("Verifying payment with eSewa: " . print_r($data, true));
@@ -47,7 +62,7 @@ if (isset($_GET['oid']) && isset($_GET['amt']) && isset($_GET['refId'])) {
         
         if (strpos($response, "Success") !== false) {
             // Update order status in database
-            $stmt = $conn->prepare("UPDATE orders SET payment_status = 'completed', payment_ref_id = ?, updated_at = NOW() WHERE order_id = ?");
+            $stmt = $conn->prepare("UPDATE orders SET status = 'completed', payment_ref = ? WHERE order_id = ?");
             if (!$stmt) {
                 throw new Exception("Database error: " . $conn->error);
             }
@@ -73,9 +88,35 @@ if (isset($_GET['oid']) && isset($_GET['amt']) && isset($_GET['refId'])) {
         header("Location: ../payment_failed.php?error=" . urlencode($e->getMessage()));
         exit();
     }
-} else {
-    error_log("Invalid eSewa success response: Missing required parameters");
-    header("Location: ../payment_failed.php?error=invalid_response");
+    } elseif (isset($_GET['order_id'])) {
+        // Direct access for COD or Khalti (already verified)
+        $order_id = $_GET['order_id'];
+        
+        // Verify order exists and get details
+        $stmt = $conn->prepare("SELECT * FROM orders WHERE order_id = ?");
+        $stmt->bind_param("s", $order_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $order = $result->fetch_assoc();
+            header("Location: ../payment_success.php?order_id=" . $order_id);
+            exit();
+        } else {
+            header("Location: ../payment_failed.php?error=order_not_found");
+            exit();
+        }
+    } else {
+        error_log("Invalid success response: Missing required parameters");
+        header("Location: ../payment_failed.php?error=invalid_response");
+        exit();
+    }
+}
+
+// Handle simulation completion
+if (isset($is_simulation) && $is_simulation) {
+    // For class project simulations
+    header("Location: ../payment_success.php?order_id=" . $order_id . "&simulation=" . $payment_method);
     exit();
 }
-?> 
+?>

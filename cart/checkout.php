@@ -268,7 +268,7 @@ $delivery_zones = [
             <img src="../images/khalti-logo.png" alt="Khalti">
             <div class="payment-method-details">
               <h4>Khalti</h4>
-              <p>Pay securely with your Khalti account</p>
+              <p>Pay with Khalti - Digital Wallet</p>
             </div>
             <input type="radio" name="payment_method" value="khalti" style="margin-left: auto;" required>
           </div>

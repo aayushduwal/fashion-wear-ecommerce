@@ -61,33 +61,6 @@ if ($payment_method === 'esewa') {
     }
 }
 
-if ($payment_method === 'khalti') {
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, 'https://khalti.com/api/v2/payment/verify/');
-    curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query([
-        'token' => $_GET['token'],
-        'amount' => $_GET['amount']
-    ]));
-    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Authorization: Key ' . KHALTI_SECRET_KEY]);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-    $response = curl_exec($ch);
-    $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    $response_data = json_decode($response, true);
-    error_log("Khalti Response (status code): " . $status_code);
-    error_log("Khalti Response (raw): " . $response);
-
-    if ($status_code !== 200 || $response_data['state']['name'] !== 'Completed') {
-        error_log("Khalti payment verification failed.");
-        $_SESSION['error'] = "Payment verification failed.";
-        header('Location: ../userdashboard/order_history.php');
-        exit();
-    }
-}
-
 // Update Order Status
 $stmt = $conn->prepare("UPDATE orders SET status = 'confirmed' WHERE id = ? AND user_id = ?");
 if (!$stmt) {
